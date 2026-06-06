@@ -1,0 +1,8 @@
+node_modules
+dist
+build
+coverage
+pnpm-lock.yaml
+
+# Markdown (docs/specs) is hand-wrapped at ~80 cols; leave it to the author.
+**/*.md

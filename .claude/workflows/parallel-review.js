@@ -91,7 +91,7 @@ const reviewed = await pipeline(
               `"${finding.title}" in ${finding.file}` +
               `${finding.line ? `:${finding.line}` : ""} — ${finding.description}`,
             {
-              label: `verify:${finding.file}`,
+              label: `verify:${dimension.key}:${finding.file}:${finding.line ?? finding.title}`,
               phase: "Verify",
               schema: VERDICT_SCHEMA,
             },

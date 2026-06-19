@@ -19,6 +19,10 @@ I don't prompt ad hoc. I work in four reviewable phases, built on the
 
 Each phase is a reviewable artifact, so the AI stays aligned with intent and the output is something I can actually trust.
 
+**See it in action:** [`docs/CASE_STUDY.md`](docs/CASE_STUDY.md) walks through
+the PR that shipped most of what's in this repo — including two real bugs the
+process caught before merge, not a sanitized success story.
+
 ## Context engineering
 
 The biggest lever for good AI output is the context you give it, not the prompt. I keep that context in version control:
@@ -28,6 +32,12 @@ The biggest lever for good AI output is the context you give it, not the prompt.
 - **[`docs/`](docs)** — the standards `AGENTS.md` points to (git hooks, development setup, React guidelines).
 - **[`.claude/skills/`](.claude/skills)** — reusable, plain-English skills for recurring tasks (commit, PR description, safe rollout) with the safety rules baked in.
 - **[`.claude/agents/`](.claude/agents)** — focused subagents (e.g. a test writer) that run independently and in parallel.
+- **[`.claude/workflows/`](.claude/workflows)** — `parallel-review`: a runnable,
+  multi-agent orchestration script — three reviewers (correctness, security,
+  this project's own standards) fan out in parallel, then every finding goes
+  through an independent skeptic before it's reported. This is the literal
+  code behind the "parallel subagents" claim above, not just a description of
+  it.
 - **[`.claude/settings.json`](.claude/settings.json)** — a scoped permission allowlist and a session-start hook that primes context automatically.
 - **[`.husky/`](.husky)** — the git hooks `docs/GIT_HOOKS.md` documents, actually
   wired up: `pre-commit` runs lint-staged, `commit-msg` blocks commits whose
@@ -85,6 +95,8 @@ measured by what users feel, backed by tests, not by how clever the code looks.
 | [`.husky/`](.husky) | Real git hooks matching `docs/GIT_HOOKS.md` — not just documentation |
 | [`.github/`](.github) | CI workflow + PR template the skills/docs reference |
 | [`.editorconfig`](.editorconfig) | Editor-level formatting baseline matching `docs/DEVELOPMENT.md` |
+| [`.claude/workflows/parallel-review.js`](.claude/workflows/parallel-review.js) | A runnable multi-agent workflow: parallel reviewers + adversarial verification |
+| [`docs/CASE_STUDY.md`](docs/CASE_STUDY.md) | The workflow's first real PR, including the bugs it caught before merge |
 
 ## Credits
 

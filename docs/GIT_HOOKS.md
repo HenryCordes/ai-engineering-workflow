@@ -10,7 +10,7 @@ and naming conventions through Git hooks.
 | `pre-commit` | before each commit | lint-staged on staged files |
 | `commit-msg` | on commit message | validates message + branch format |
 | `post-checkout` | on branch switch | warns on invalid branch names |
-| `pre-push` | before push | runs tests/coverage for changed files |
+| `pre-push` | before push | runs the test suite (`pnpm test`) |
 
 ## Branch naming convention
 

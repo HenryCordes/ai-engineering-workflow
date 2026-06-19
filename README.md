@@ -29,23 +29,38 @@ The biggest lever for good AI output is the context you give it, not the prompt.
 - **[`.claude/skills/`](.claude/skills)** — reusable, plain-English skills for recurring tasks (commit, PR description, safe rollout) with the safety rules baked in.
 - **[`.claude/agents/`](.claude/agents)** — focused subagents (e.g. a test writer) that run independently and in parallel.
 - **[`.claude/settings.json`](.claude/settings.json)** — a scoped permission allowlist and a session-start hook that primes context automatically.
+- **[`.husky/`](.husky)** — the git hooks `docs/GIT_HOOKS.md` documents, actually
+  wired up: `pre-commit` runs lint-staged, `commit-msg` blocks commits whose
+  message or branch name doesn't conform, `post-checkout` warns on a bad branch
+  name, `pre-push` runs the test suite.
 
-## Running the worked example
+## Running the working example
 
-The feature-flag hook in [`src/feature-flags/`](src/feature-flags) is real, tested
-code — the output of the workflow above, not a sketch. To run it yourself you need
-**Node 20+** and **pnpm 10+**:
+Two worked examples live in [`src/`](src), each taking the same spec →
+plan → implement path to a different kind of problem:
+
+- **[`src/feature-flags/`](src/feature-flags)** — sync, pure: a typed
+  `useFeatureFlag` hook with no I/O, tested without fake timers or mocks.
+- **[`src/http/`](src/http)** — async, with a real I/O boundary: a
+  `fetchWithRetry` wrapper with exponential backoff, tested with an injected
+  `fetch` and fake timers instead of real waiting.
+
+To run them yourself you need **Node 20+** and **pnpm 10+** (the exact version
+this repo was built against is pinned via `packageManager` in
+[`package.json`](package.json)):
 
 ```bash
 pnpm install       # install dependencies
-pnpm test          # Vitest — 13 unit + hook tests
+pnpm test          # Vitest — 21 unit + hook tests
 pnpm typecheck     # tsc --noEmit (strict)
 pnpm lint          # ESLint (flat config)
 pnpm format:check  # Prettier
 ```
 
 The toolchain is intentionally minimal — Vitest, TypeScript, and ESLint/Prettier —
-just enough to prove the example without standing up a full Next.js app.
+just enough to prove the examples without standing up a full Next.js app. The
+same four commands run in CI on every push and pull request — see
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ## Principles
 
@@ -58,14 +73,18 @@ measured by what users feel, backed by tests, not by how clever the code looks.
 
 | Path | What it shows |
 |------|---------------|
-| [`specs/`](specs) | A worked spec → implementation-plan pair (a typed feature-flag hook) |
-| [`src/feature-flags/`](src/feature-flags) | The implemented hook + tests — the workflow's output, green and typed |
+| [`specs/`](specs) | Two worked spec → implementation-plan pairs (a typed feature-flag hook; an async retry wrapper) |
+| [`src/feature-flags/`](src/feature-flags) | The sync/pure example — hook + tests, green and typed |
+| [`src/http/`](src/http) | The async/I-O-boundary example — retry wrapper + tests using fake timers |
 | [`AGENTS.md`](AGENTS.md) | The single-source-of-truth context pattern |
 | [`CLAUDE.md`](CLAUDE.md) | The thin Claude Code entry that redirects to `AGENTS.md` |
 | [`docs/`](docs) | Standards referenced by `AGENTS.md` |
 | [`.claude/skills/`](.claude/skills) | Reusable task skills with safety rails |
 | [`.claude/agents/`](.claude/agents) | Independent, parallelizable subagents |
 | [`.claude/`](.claude) | Permissions + session-start hook |
+| [`.husky/`](.husky) | Real git hooks matching `docs/GIT_HOOKS.md` — not just documentation |
+| [`.github/`](.github) | CI workflow + PR template the skills/docs reference |
+| [`.editorconfig`](.editorconfig) | Editor-level formatting baseline matching `docs/DEVELOPMENT.md` |
 
 ## Credits
 

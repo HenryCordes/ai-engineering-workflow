@@ -29,15 +29,17 @@ The biggest lever for good AI output is the context you give it, not the prompt.
 
 - **[`AGENTS.md`](AGENTS.md)** — a single source of truth for project rules, indexed so the AI (and humans) can load the right doc at the right time.
 - **[`CLAUDE.md`](CLAUDE.md)** — the Claude Code entry point. Deliberately thin: it redirects to `AGENTS.md` so the rules live in one place instead of being duplicated per tool. A `SessionStart` hook in [`.claude/`](.claude) primes branch and workflow context automatically.
-- **[`docs/`](docs)** — the standards `AGENTS.md` points to (git hooks, development setup, React guidelines).
-- **[`.claude/skills/`](.claude/skills)** — reusable, plain-English skills for recurring tasks (commit, PR description, safe rollout) with the safety rules baked in.
-- **[`.claude/agents/`](.claude/agents)** — focused subagents (e.g. a test writer) that run independently and in parallel.
+- **[`docs/`](docs)** — the standards `AGENTS.md` points to (architecture, git hooks, development setup, React guidelines).
+- **[`.claude/commands/`](.claude/commands)** — slash commands for repeatable ops; `new-spec` scaffolds a spec + implementation-plan pair from the house templates.
+- **[`.claude/skills/`](.claude/skills)** — reusable, plain-English skills for recurring tasks (commit, PR description, safe rollout, scaffold a module) with the safety rules baked in.
+- **[`.claude/agents/`](.claude/agents)** — focused subagents (a test writer, a standards reviewer) that run independently and in parallel.
 - **[`.claude/workflows/`](.claude/workflows)** — `parallel-review`: a runnable,
   multi-agent orchestration script — three reviewers (correctness, security,
   this project's own standards) fan out in parallel, then every finding goes
   through an independent skeptic before it's reported. This is the literal
   code behind the "parallel subagents" claim above, not just a description of
-  it.
+  it. `generate-tests` reuses the same orchestration to backfill tests across
+  many untested modules at once.
 - **[`.claude/settings.json`](.claude/settings.json)** — a scoped permission allowlist and a session-start hook that primes context automatically.
 - **[`.husky/`](.husky)** — the git hooks `docs/GIT_HOOKS.md` documents, actually
   wired up: `pre-commit` runs lint-staged, `commit-msg` blocks commits whose
@@ -89,13 +91,16 @@ measured by what users feel, backed by tests, not by how clever the code looks.
 | [`AGENTS.md`](AGENTS.md) | The single-source-of-truth context pattern |
 | [`CLAUDE.md`](CLAUDE.md) | The thin Claude Code entry that redirects to `AGENTS.md` |
 | [`docs/`](docs) | Standards referenced by `AGENTS.md` |
-| [`.claude/skills/`](.claude/skills) | Reusable task skills with safety rails |
-| [`.claude/agents/`](.claude/agents) | Independent, parallelizable subagents |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | How the repo is laid out — worked examples, docs, and agent tooling |
+| [`.claude/commands/`](.claude/commands) | Slash commands — `new-spec` scaffolds a spec + plan pair |
+| [`.claude/skills/`](.claude/skills) | Reusable task skills with safety rails (incl. `scaffold-module`) |
+| [`.claude/agents/`](.claude/agents) | Independent, parallelizable subagents (`write-test`, `review-standards`) |
 | [`.claude/`](.claude) | Permissions + session-start hook |
 | [`.husky/`](.husky) | Real git hooks matching `docs/GIT_HOOKS.md` — not just documentation |
 | [`.github/`](.github) | CI workflow + PR template the skills/docs reference |
 | [`.editorconfig`](.editorconfig) | Editor-level formatting baseline matching `docs/DEVELOPMENT.md` |
 | [`.claude/workflows/parallel-review.js`](.claude/workflows/parallel-review.js) | A runnable multi-agent workflow: parallel reviewers + adversarial verification |
+| [`.claude/workflows/generate-tests.js`](.claude/workflows/generate-tests.js) | A parallel workflow that backfills tests for untested modules |
 | [`docs/CASE_STUDY.md`](docs/CASE_STUDY.md) | The workflow's first real PR, including the bugs it caught before merge |
 
 ## Credits

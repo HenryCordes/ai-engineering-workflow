@@ -10,6 +10,7 @@ Load the right doc for the task instead of reading everything:
 
 | Topic | File | When to read |
 |-------|------|-------------|
+| System architecture & layout | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Understanding where things live; adding a module or agent tool |
 | Git hooks & branch naming | [docs/GIT_HOOKS.md](docs/GIT_HOOKS.md) | Before committing or pushing |
 | Development setup & tooling | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | First-time setup, tooling questions |
 | React & component standards | [docs/REACT_GUIDELINES.md](docs/REACT_GUIDELINES.md) | When creating or structuring components |

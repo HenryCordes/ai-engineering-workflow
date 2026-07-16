@@ -1,0 +1,60 @@
+{
+  "fields": [
+    { "name": "merchant", "type": "string", "required": true },
+    { "name": "date", "type": "date", "required": true },
+    { "name": "total", "type": "number", "required": true },
+    { "name": "vatAmount", "type": "number", "required": false }
+  ],
+  "cases": [
+    {
+      "name": "dutch supermarket, EU decimal comma",
+      "text": "ALBERT HEIJN 1376\nBrummen\n16-07-2026 14:23\n\nMelk halfvol 1L 1,29\nBrood volkoren 2,49\nKaas jong belegen 5,79\n\nTOTAAL 9,57\nwaarvan BTW 9% 0,79\nPINNEN 9,57",
+      "expected": {
+        "merchant": "Albert Heijn",
+        "date": "2026-07-16",
+        "total": 9.57,
+        "vatAmount": 0.79
+      }
+    },
+    {
+      "name": "restaurant, USD, no VAT line",
+      "text": "The Rusty Anchor\n123 Harbor St\n\nJul 2, 2026\n\n2x Fish & Chips $31.90\n1x Lemonade $4.50\n\nSubtotal $36.40\nTip $7.28\nTotal: $43.68\n\nThank you, come again!",
+      "expected": {
+        "merchant": "The Rusty Anchor",
+        "date": "2026-07-02",
+        "total": 43.68,
+        "vatAmount": null
+      }
+    },
+    {
+      "name": "fuel station, inline VAT",
+      "text": "TankStation De Snelweg B.V.\nKvK 12345678\n2026/06/28\nEuro95 42,10 L @ 1,899 EUR/L\nBedrag: EUR 79,95 (incl. 21% BTW: EUR 13,88)\nKaart: ****1234",
+      "expected": {
+        "merchant": "TankStation De Snelweg B.V.",
+        "date": "2026-06-28",
+        "total": 79.95,
+        "vatAmount": 13.88
+      }
+    },
+    {
+      "name": "online invoice, ISO date",
+      "text": "INVOICE #2026-0455\nHosting Freaks GmbH\nDate: 2026-05-01\n\nVPS hosting (May) ........ 24.00\nBackup add-on ............. 6.00\n\nNet 30.00\nVAT 19% 5.70\nAmount due 35.70 EUR",
+      "expected": {
+        "merchant": "Hosting Freaks GmbH",
+        "date": "2026-05-01",
+        "total": 35.7,
+        "vatAmount": 5.7
+      }
+    },
+    {
+      "name": "handwritten-style market stall, minimal",
+      "text": "bloemenmarkt jansen\n3 juli 2026\ntulpen 12 50\ncontant betaald 12 50",
+      "expected": {
+        "merchant": "Bloemenmarkt Jansen",
+        "date": "2026-07-03",
+        "total": 12.5,
+        "vatAmount": null
+      }
+    }
+  ]
+}

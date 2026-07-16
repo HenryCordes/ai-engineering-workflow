@@ -16,14 +16,16 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "check:context": "node scripts/check-context-budget.mjs",
+    "check:links": "node scripts/check-links.mjs"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{json,md,yml,yaml}": [
+    "*.{js,mjs,cjs,json,md,yml,yaml}": [
       "prettier --write"
     ]
   },

@@ -67,6 +67,15 @@ every rule exists (see the Lessons in
 [`scaffold-module`](.claude/skills/scaffold-module/SKILL.md), grown out of the bugs in the
 [case study](docs/CASE_STUDY.md)).
 
+**And CI holds both rules to account.** Stated rules drift unless something enforces them,
+so the same pipeline that runs lint and tests also runs
+[`check-context-budget`](scripts/check-context-budget.mjs) — the build fails when
+`CLAUDE.md`, `AGENTS.md`, or any skill description outgrows its budget, forcing a
+deliberate "move this to an on-demand doc" decision instead of silent bloat — and
+[`check-links`](scripts/check-links.mjs), which fails on any broken relative link, because
+a doc index or skill pointing at a moved file is a broken import. Run them locally with
+`pnpm check:context` and `pnpm check:links`.
+
 ## Running the working example
 
 Two worked examples live in [`src/`](src), each taking the same spec →
@@ -119,6 +128,7 @@ measured by what users feel, backed by tests, not by how clever the code looks.
 | [`.claude/agents/`](.claude/agents) | Independent, parallelizable subagents (`write-test`, `review-standards`) |
 | [`.claude/`](.claude) | Permissions + session-start hook |
 | [`.husky/`](.husky) | Real git hooks matching `docs/GIT_HOOKS.md` — not just documentation |
+| [`scripts/`](scripts) | CI guardrails for the context itself — budget + link checks |
 | [`.github/`](.github) | CI workflow + PR template the skills/docs reference |
 | [`.editorconfig`](.editorconfig) | Editor-level formatting baseline matching `docs/DEVELOPMENT.md` |
 | [`.claude/workflows/parallel-review.js`](.claude/workflows/parallel-review.js) | A runnable multi-agent workflow: parallel reviewers + adversarial verification |

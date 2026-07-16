@@ -78,7 +78,7 @@ a doc index or skill pointing at a moved file is a broken import. Run them local
 
 ## Running the working example
 
-Two worked examples live in [`src/`](src), each taking the same spec →
+Three worked examples live in [`src/`](src), each taking the same spec →
 plan → implement path to a different kind of problem:
 
 - **[`src/feature-flags/`](src/feature-flags)** — sync, pure: a typed
@@ -86,6 +86,14 @@ plan → implement path to a different kind of problem:
 - **[`src/http/`](src/http)** — async, with a real I/O boundary: a
   `fetchWithRetry` wrapper with exponential backoff, tested with an injected
   `fetch` and fake timers instead of real waiting.
+- **[`src/llm-extract/`](src/llm-extract)** — a **nondeterministic boundary**:
+  typed field extraction from unstructured text (receipts) via an injected LLM
+  client, with schema validation, bounded repair-retries on malformed model
+  output, and — the part that matters — a golden-set **eval** that measures
+  per-field accuracy against a threshold instead of assuming the LLM got it
+  right. Unit tests run on a scripted fake; the real-API eval
+  (`llmExtract.eval.test.ts`) activates only when `ANTHROPIC_API_KEY` is set,
+  so CI needs no secrets.
 
 To run them yourself you need **Node 20+** and **pnpm 10+** (the exact version
 this repo was built against is pinned via `packageManager` in
@@ -93,7 +101,7 @@ this repo was built against is pinned via `packageManager` in
 
 ```bash
 pnpm install       # install dependencies
-pnpm test          # Vitest — 21 unit + hook tests
+pnpm test          # Vitest — 41 unit + hook tests (+1 gated eval)
 pnpm typecheck     # tsc --noEmit (strict)
 pnpm lint          # ESLint (flat config)
 pnpm format:check  # Prettier

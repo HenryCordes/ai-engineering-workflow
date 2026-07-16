@@ -4,7 +4,7 @@ This repo is a **teaching artifact**, not an application. Its "architecture" is 
 that makes AI-assisted work reproducible: where the rules live, where the worked examples
 live, and where the agent tooling lives. Everything here is generic on purpose.
 
-## Two worked examples (`src/`)
+## Three worked examples (`src/`)
 
 Each example takes the same spec -> plan -> implement path to a deliberately different kind
 of problem, so the workflow is shown on more than one shape of code:
@@ -13,6 +13,7 @@ of problem, so the workflow is shown on more than one shape of code:
 |--------|-------|----------------|
 | [`src/feature-flags/`](../src/feature-flags) | sync, pure (no I/O) | a typed `useFeatureFlag` hook tested without timers or mocks |
 | [`src/http/`](../src/http) | async, real I/O boundary | a `fetchWithRetry` wrapper tested with an injected `fetch` + fake timers |
+| [`src/llm-extract/`](../src/llm-extract) | nondeterministic boundary (LLM) | typed extraction with repair-retries, an injected client, and a golden-set eval that measures accuracy |
 
 A module is a folder with `types.ts`, the implementation, and a colocated `*.test.ts`. New
 modules follow the same shape — see the [`scaffold-module`](../.claude/skills/scaffold-module/SKILL.md) skill.

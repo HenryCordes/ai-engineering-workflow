@@ -15,7 +15,7 @@ of problem, so the workflow is shown on more than one shape of code:
 | [`src/http/`](../src/http) | async, real I/O boundary | a `fetchWithRetry` wrapper tested with an injected `fetch` + fake timers |
 
 A module is a folder with `types.ts`, the implementation, and a colocated `*.test.ts`. New
-modules follow the same shape — see the [`scaffold-module`](../.claude/skills/scaffold-module.md) skill.
+modules follow the same shape — see the [`scaffold-module`](../.claude/skills/scaffold-module/SKILL.md) skill.
 
 ## Context, in version control
 
@@ -30,7 +30,7 @@ The rules an agent needs are files, not tribal knowledge:
 | Path | Kind | Runs | Example |
 |------|------|------|---------|
 | [`commands/`](../.claude/commands) | slash command | on demand, in your session | `new-spec` scaffolds a spec + plan pair |
-| [`skills/`](../.claude/skills) | reusable skill | when its trigger matches | `commit`, `pr-description`, `safe-rollout`, `scaffold-module` |
+| [`skills/`](../.claude/skills) | reusable skill | when its trigger matches | `commit`, `pr-description`, `safe-rollout`, `scaffold-module`, `improve-skill` |
 | [`agents/`](../.claude/agents) | subagent | dispatched via the `Agent` tool, in parallel | `write-test`, `review-standards` |
 | [`workflows/`](../.claude/workflows) | orchestration script | as a multi-agent run | `parallel-review`, `generate-tests` |
 | `settings.json` | config | always | scoped permission allowlist + session-start hook |
@@ -40,6 +40,11 @@ The rules an agent needs are files, not tribal knowledge:
 *subagent* is a fresh, focused agent you dispatch for one job (it can run in parallel and has
 its own tool permissions). A *workflow* is a script that orchestrates several subagents across
 phases — `parallel-review` and `generate-tests` are the two worked examples.
+
+Each skill is a folder — `SKILL.md` plus colocated resources (e.g.
+`scaffold-module/templates/`). Skills carry a `## Lessons` changelog; the `improve-skill`
+skill is the loop that appends to it: a session failure becomes the smallest permanent rule
+that would have prevented it.
 
 ## Guardrails
 

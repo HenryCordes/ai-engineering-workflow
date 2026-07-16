@@ -1,0 +1,18 @@
+import { describe, expect, it, vi } from "vitest";
+
+import { <name> } from "./<name>";
+
+// Sync/pure module: assert inputs -> outputs directly.
+// Async/I-O module: inject a fake and use vi.useFakeTimers().
+//
+// Fake-timer + rejection pitfalls (see Lessons in SKILL.md):
+// - Attach the rejection handler BEFORE advancing time:
+//     await Promise.all([expect(promise).rejects.toThrow(...), vi.advanceTimersByTimeAsync(ms)]);
+// - Error.cause is non-enumerable: toMatchObject() silently skips it.
+//   Assert it directly (try/catch or `.cause` property check).
+
+describe("<name>", () => {
+  it("does what the spec says", () => {
+    expect(<name>({})).toEqual(/* ... */);
+  });
+});

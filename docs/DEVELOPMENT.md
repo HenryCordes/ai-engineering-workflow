@@ -1,27 +1,14 @@
 # Development Setup & Tooling
 
-## Quick reference
-
-- **Principles:** DRY/KISS/SOLID held with judgment; earn your abstractions.
-- **Folder structure:** prefer folders over loose modules; keep a component's
-  children and tests local to it.
-- **Code style:** function declarations, no `any`, prefer `type` over `interface`.
-- **Git:** `{username}/{TICKET}-{name}` branches; squash-merge PRs.
-
-## EditorConfig
-
-`.editorconfig` keeps formatting consistent across editors:
-
-- UTF-8, LF line endings, final newline inserted, trailing whitespace trimmed.
-- 2-space indentation (tabs in Makefiles).
-- TypeScript/JavaScript: 2 spaces, double quotes.
-- Markdown: no trailing-whitespace trim, no line-length limit.
+Project-specific setup only; principles and workflow live in [AGENTS.md](../AGENTS.md).
+Formatting rules are enforced by [.editorconfig](../.editorconfig) and Prettier — read
+those files rather than a prose copy here.
 
 ## Tooling
 
 | Tool | Role |
 |------|------|
-| pnpm | package manager (workspaces/monorepo) |
+| pnpm | package manager — never npm/yarn (`packageManager` is pinned) |
 | ESLint + Prettier | linting and formatting |
 | TypeScript | type checking (`pnpm typecheck`) |
 | Vitest | unit/component tests |
@@ -36,3 +23,8 @@ pnpm lint:fix       # lint and auto-fix
 pnpm typecheck      # type check
 pnpm test           # run tests
 ```
+
+## Code style (project choices)
+
+- Function declarations, no `any`, prefer `type` over `interface`.
+- Git: `{username}/{TICKET}-{name}` branches; squash-merge PRs.

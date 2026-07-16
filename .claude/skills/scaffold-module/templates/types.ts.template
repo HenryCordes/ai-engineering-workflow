@@ -1,0 +1,17 @@
+// Public types for <name>: options, results, typed errors.
+// Make illegal states unrepresentable — prefer unions over booleans.
+
+export type <Name>Options = {
+  // ...
+};
+
+export type <Name>Result = {
+  // ...
+};
+
+export class <Name>Error extends Error {
+  constructor(message: string, options?: { cause?: unknown }) {
+    super(message, options);
+    this.name = "<Name>Error";
+  }
+}

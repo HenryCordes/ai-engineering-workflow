@@ -14,6 +14,9 @@ export default tseslint.config(
       "coverage",
       ".husky",
       ".claude/workflows",
+      // Node-context harness scripts, not application source (see the Lessons
+      // in .claude/skills/scaffold-module/SKILL.md).
+      "scripts",
     ],
   },
 

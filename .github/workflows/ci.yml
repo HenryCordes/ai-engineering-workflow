@@ -30,3 +30,9 @@ jobs:
       - run: pnpm format:check
 
       - run: pnpm test
+
+      # The repo claims its always-loaded agent context stays small and its
+      # context files are maintained like code — these two make that falsifiable.
+      - run: pnpm check:context
+
+      - run: pnpm check:links

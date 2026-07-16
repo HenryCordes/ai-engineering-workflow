@@ -1,0 +1,23 @@
+{
+  "name": "ai-engineering-workflow",
+  "version": "1.0.0",
+  "description": "Spec-driven AI-assisted engineering harness: commit, PR-description, safe-rollout and scaffolding skills, reviewer and test-writer subagents, a new-spec command, and the improve-skill hardening loop that turns session failures into permanent fixes.",
+  "author": {
+    "name": "Henry Cordes",
+    "email": "development@devartist.nl",
+    "url": "https://devartist.nl"
+  },
+  "homepage": "https://github.com/HenryCordes/ai-engineering-workflow",
+  "repository": "https://github.com/HenryCordes/ai-engineering-workflow",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "workflow",
+    "context-engineering",
+    "skills",
+    "spec-driven-development"
+  ],
+  "skills": "./.claude/skills/",
+  "commands": ["./.claude/commands/"],
+  "agents": ["./.claude/agents/"]
+}

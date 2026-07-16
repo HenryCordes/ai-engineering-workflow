@@ -9,8 +9,9 @@ description: Use when adding a new self-contained module under src/ — "scaffol
 
 A module here is a folder under `src/` with a single clear purpose, a typed surface, and a
 colocated test. This skill scaffolds that trio consistently so a new module matches the two
-existing worked examples ([`src/feature-flags/`](../../src/feature-flags),
-[`src/http/`](../../src/http)) instead of inventing its own shape.
+existing worked examples ([`src/feature-flags/`](../../../src/feature-flags),
+[`src/http/`](../../../src/http)) instead of inventing its own shape. Starting points for
+the three files live in [`templates/`](templates) — adapt them, don't copy blindly.
 
 ## Input
 
@@ -35,3 +36,18 @@ existing worked examples ([`src/feature-flags/`](../../src/feature-flags),
 - Create a module without a test — the test is the guardrail, not an afterthought.
 - Add a dependency to scaffold a module; the toolchain stays minimal.
 - Reach for a class when a function and plain data will do (KISS).
+
+## Lessons
+
+Failures this skill has absorbed (see the `improve-skill` skill for how entries get here;
+full stories in [docs/CASE_STUDY.md](../../../docs/CASE_STUDY.md)):
+
+- 2026-06-19 — Fake-timer test left a rejection unhandled: `await advanceTimersByTimeAsync()`
+  ran before a handler was attached to the promise under test → attach the handler first,
+  then race both with `Promise.all([...])`.
+- 2026-06-19 — `toMatchObject()` silently skipped `Error.cause` (non-enumerable), so the
+  test passed without checking what it claimed → assert `cause` and other non-enumerable
+  properties directly.
+- 2026-06-19 — Node-context tooling scripts (`.husky/`, `.claude/workflows/`) tripped
+  `no-undef` under the app's ESLint config → harness scripts stay scoped out of the app
+  lint config; don't "fix" them by weakening `src/` rules.

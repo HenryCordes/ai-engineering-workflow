@@ -1,0 +1,8 @@
+import type { <Name>Options, <Name>Result } from "./types";
+
+// Pure where possible; inject I/O boundaries (fetch, clock, storage) as
+// parameters so the module is testable without touching globals.
+
+export function <name>(options: <Name>Options): <Name>Result {
+  // ...
+}

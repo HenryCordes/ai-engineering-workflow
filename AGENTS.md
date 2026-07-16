@@ -45,4 +45,4 @@ For agentic work, use the Superpowers sub-skills (`superpowers:executing-plans`,
   [docs/GIT_HOOKS.md](docs/GIT_HOOKS.md).
 - Run lint + typecheck before staging.
 - Never commit automatically — only on explicit user authorization. See
-  [.claude/skills/commit.md](.claude/skills/commit.md).
+  [.claude/skills/commit/SKILL.md](.claude/skills/commit/SKILL.md).

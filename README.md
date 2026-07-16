@@ -31,7 +31,7 @@ The biggest lever for good AI output is the context you give it, not the prompt.
 - **[`CLAUDE.md`](CLAUDE.md)** — the Claude Code entry point. Deliberately thin: it redirects to `AGENTS.md` so the rules live in one place instead of being duplicated per tool. A `SessionStart` hook in [`.claude/`](.claude) primes branch and workflow context automatically.
 - **[`docs/`](docs)** — the standards `AGENTS.md` points to (architecture, git hooks, development setup, React guidelines).
 - **[`.claude/commands/`](.claude/commands)** — slash commands for repeatable ops; `new-spec` scaffolds a spec + implementation-plan pair from the house templates.
-- **[`.claude/skills/`](.claude/skills)** — reusable, plain-English skills for recurring tasks (commit, PR description, safe rollout, scaffold a module) with the safety rules baked in.
+- **[`.claude/skills/`](.claude/skills)** — reusable, plain-English skills for recurring tasks (commit, PR description, safe rollout, scaffold a module) with the safety rules baked in. Each skill is a folder (`<name>/SKILL.md` plus colocated resources, e.g. `scaffold-module/templates/`), and skills carry a `## Lessons` changelog of the failures they've absorbed — see below.
 - **[`.claude/agents/`](.claude/agents)** — focused subagents (a test writer, a standards reviewer) that run independently and in parallel.
 - **[`.claude/workflows/`](.claude/workflows)** — `parallel-review`: a runnable,
   multi-agent orchestration script — three reviewers (correctness, security,
@@ -45,6 +45,27 @@ The biggest lever for good AI output is the context you give it, not the prompt.
   wired up: `pre-commit` runs lint-staged, `commit-msg` blocks commits whose
   message or branch name doesn't conform, `post-checkout` warns on a bad branch
   name, `pre-push` runs the test suite.
+
+### Small context, self-hardening skills
+
+Two rules govern all of the above:
+
+**Keep the always-loaded context minimal.** `CLAUDE.md` is a handful of lines and
+`AGENTS.md` stays under a page, because every word in them is paid for in every single
+session. Models already know TypeScript and React; the context documents only what they
+can't know — this project's conventions, decisions, and workflow. Everything else loads on
+demand: docs through the index in `AGENTS.md`, skills through their own trigger
+descriptions (a skill costs one description line until it's actually needed).
+
+**Treat context files like code: failures get fixes.** When a session goes wrong in a way
+a skill or doc should have prevented, the
+[`improve-skill`](.claude/skills/improve-skill/SKILL.md) skill patches the responsible
+file with the smallest rule that would have prevented the failure, and logs it in that
+skill's `## Lessons` section — date, failure, rule. Skills converge on bulletproof instead
+of the same correction being repeated across sessions, and the audit trail shows *why*
+every rule exists (see the Lessons in
+[`scaffold-module`](.claude/skills/scaffold-module/SKILL.md), grown out of the bugs in the
+[case study](docs/CASE_STUDY.md)).
 
 ## Running the working example
 
@@ -93,7 +114,8 @@ measured by what users feel, backed by tests, not by how clever the code looks.
 | [`docs/`](docs) | Standards referenced by `AGENTS.md` |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | How the repo is laid out — worked examples, docs, and agent tooling |
 | [`.claude/commands/`](.claude/commands) | Slash commands — `new-spec` scaffolds a spec + plan pair |
-| [`.claude/skills/`](.claude/skills) | Reusable task skills with safety rails (incl. `scaffold-module`) |
+| [`.claude/skills/`](.claude/skills) | Reusable task skills with safety rails, each with a `## Lessons` changelog (incl. `scaffold-module` + templates) |
+| [`.claude/skills/improve-skill/`](.claude/skills/improve-skill) | The hardening loop — session failures become permanent skill fixes |
 | [`.claude/agents/`](.claude/agents) | Independent, parallelizable subagents (`write-test`, `review-standards`) |
 | [`.claude/`](.claude) | Permissions + session-start hook |
 | [`.husky/`](.husky) | Real git hooks matching `docs/GIT_HOOKS.md` — not just documentation |

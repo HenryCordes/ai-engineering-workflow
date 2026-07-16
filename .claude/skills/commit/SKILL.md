@@ -43,3 +43,10 @@ If you must switch branches with uncommitted work, stash with
 - Commit to `main` or a protected branch.
 - Commit without running lint + typecheck.
 - Add a `Co-Authored-By` trailer (project convention).
+
+## Lessons
+
+- 2026-07-16 — New `.mjs` scripts passed pre-commit unformatted (lint-staged only covered
+  `ts/tsx/json/md/yml`) and failed CI's `format:check` → lint-staged now formats
+  `js/mjs/cjs` too; when a commit introduces a new file *type*, run `pnpm format:check`
+  before committing — pre-commit only proves the file types it knows about.

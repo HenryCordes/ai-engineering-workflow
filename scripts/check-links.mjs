@@ -36,4 +36,6 @@ if (broken.length > 0) {
   for (const link of broken) console.error(`  ${link}`);
   process.exit(1);
 }
-console.log(`✓ Links: ${files.length} markdown files checked, no broken relative links.`);
+console.log(
+  `✓ Links: ${files.length} markdown files checked, no broken relative links.`,
+);

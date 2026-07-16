@@ -37,7 +37,9 @@ const ok = (msg) => console.log(`✓ ${msg}`);
 for (const [file, budget] of Object.entries(FILE_BUDGETS)) {
   const words = wordCount(readFileSync(join(ROOT, file), "utf8"));
   if (words > budget) {
-    fail(`${file}: ${words} words > budget ${budget}. Move content to an on-demand doc or skill.`);
+    fail(
+      `${file}: ${words} words > budget ${budget}. Move content to an on-demand doc or skill.`,
+    );
   } else {
     ok(`${file}: ${words}/${budget} words`);
   }
@@ -50,7 +52,9 @@ for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
   const source = readFileSync(path, "utf8");
 
   const frontmatter = source.match(/^---\n([\s\S]*?)\n---/);
-  const description = frontmatter?.[1].match(/^description:\s*(.+(?:\n(?![a-z-]+:).+)*)/m)?.[1];
+  const description = frontmatter?.[1].match(
+    /^description:\s*(.+(?:\n(?![a-z-]+:).+)*)/m,
+  )?.[1];
   if (!description) {
     fail(`${entry.name}/SKILL.md: missing frontmatter description`);
     continue;
@@ -62,7 +66,9 @@ for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
         "Descriptions are always in context — move detail into the skill body.",
     );
   } else {
-    ok(`${entry.name}/SKILL.md description: ${chars}/${SKILL_DESCRIPTION_BUDGET} chars`);
+    ok(
+      `${entry.name}/SKILL.md description: ${chars}/${SKILL_DESCRIPTION_BUDGET} chars`,
+    );
   }
 }
 

@@ -1,0 +1,15 @@
+{
+  "name": "devartist",
+  "owner": {
+    "name": "Henry Cordes",
+    "email": "development@devartist.nl",
+    "url": "https://devartist.nl"
+  },
+  "plugins": [
+    {
+      "name": "ai-engineering-workflow",
+      "source": "./",
+      "description": "Spec-driven AI-assisted engineering harness: task skills with a self-hardening Lessons loop, reviewer and test-writer subagents, and a new-spec scaffolding command."
+    }
+  ]
+}

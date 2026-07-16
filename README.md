@@ -67,6 +67,24 @@ every rule exists (see the Lessons in
 [`scaffold-module`](.claude/skills/scaffold-module/SKILL.md), grown out of the bugs in the
 [case study](docs/CASE_STUDY.md)).
 
+### Use this setup in your own repo
+
+The whole harness is also a **Claude Code plugin** — the manifest in
+[`.claude-plugin/`](.claude-plugin) points at the same `.claude/` folders this repo uses
+itself, so there's exactly one copy of everything. Install:
+
+```
+/plugin marketplace add HenryCordes/ai-engineering-workflow
+/plugin install ai-engineering-workflow@devartist
+```
+
+You get the skills (`commit`, `pr-description`, `safe-rollout`, `scaffold-module`,
+`improve-skill` — Lessons changelogs included), the subagents (`write-test`,
+`review-standards`) and the `new-spec` command. Repo-local wiring (the SessionStart hook,
+`settings.json` permissions, git hooks) deliberately stays out of the plugin — that's your
+project's business. Note `scaffold-module` assumes this repo's module layout; the rest is
+project-agnostic.
+
 **And CI holds both rules to account.** Stated rules drift unless something enforces them,
 so the same pipeline that runs lint and tests also runs
 [`check-context-budget`](scripts/check-context-budget.mjs) — the build fails when
@@ -137,6 +155,7 @@ measured by what users feel, backed by tests, not by how clever the code looks.
 | [`.claude/`](.claude) | Permissions + session-start hook |
 | [`.husky/`](.husky) | Real git hooks matching `docs/GIT_HOOKS.md` — not just documentation |
 | [`scripts/`](scripts) | CI guardrails for the context itself — budget + link checks |
+| [`.claude-plugin/`](.claude-plugin) | Plugin + marketplace manifests — install this harness into your own repo |
 | [`.github/`](.github) | CI workflow + PR template the skills/docs reference |
 | [`.editorconfig`](.editorconfig) | Editor-level formatting baseline matching `docs/DEVELOPMENT.md` |
 | [`.claude/workflows/parallel-review.js`](.claude/workflows/parallel-review.js) | A runnable multi-agent workflow: parallel reviewers + adversarial verification |
